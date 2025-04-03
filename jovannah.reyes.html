@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2025 by anonymous (http://jsbin.com/levamihazi/2/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Traffic Lights and Lights Toggle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: orange;
+            padding: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: black;
+            padding: 10px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: blue;
+            min-width: 180px;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: darkblue;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .traffic-light {
+            width: 80px;
+            background: black;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 50px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .light {
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+            border-radius: 50%;
+            background: gray;
+        }
+
+        .light.on {
+            background-color: yellow;
+        }
+
+        .light.red {
+            background-color: red;
+        }
+
+        .light.green {
+            background-color: green;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .light-bulb-container {
+            margin-top: 20px;
+        }
+
+        .light-bulb {
+            width: 100px;
+            height: 150px;
+            background: url('https://www.w3schools.com/js/pic_bulboff.gif') no-repeat center;
+            background-size: contain;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#">HOME</a>
+        <div class="dropdown">
+            <a href="#">ACTIVITIES</a>
+            <div class="dropdown-content">
+                <a href="#" id="lights">LIGHTS</a>
+                <a href="#" id="trafficLights">TRAFFIC LIGHTS</a>
+            </div>
+        </div>
+        <a href="#">ARTICLES</a>
+        <a href="#">INSPIRATION</a>
+    </div>
+
+    <div id="trafficLightsSection" style="display: none;">
+        <h2>Traffic Lights</h2>
+        <div class="traffic-light">
+            <div class="light" id="red"></div>
+            <div class="light" id="yellow"></div>
+            <div class="light" id="green"></div>
+        </div>
+        <button onclick="startAutoCycle()">Start</button>
+        <button onclick="stopAutoCycle()">Stop</button>
+    </div>
+
+    <div id="lightBulbSection" style="display: none;" class="light-bulb-container">
+        <h2>Light Bulb</h2>
+        <img id="bulb" class="light-bulb" src="https://www.w3schools.com/js/pic_bulboff.gif" alt="Light Bulb">
+        <button onclick="toggleLight()">Turn On/Off</button>
+    </div>
+
+    <script>
+        let currentLight = '';
+        let interval;
+
+        function changeTrafficLight() {
+            resetLights();
+            if (currentLight === 'red') {
+                document.getElementById('yellow').style.background = 'yellow';
+                currentLight = 'yellow';
+            } else if (currentLight === 'yellow') {
+                document.getElementById('green').style.background = 'green';
+                currentLight = 'green';
+            } else {
+                document.getElementById('red').style.background = 'red';
+                currentLight = 'red';
+            }
+        }
+
+        function resetLights() {
+            document.getElementById('red').style.background = 'gray';
+            document.getElementById('yellow').style.background = 'gray';
+            document.getElementById('green').style.background = 'gray';
+        }
+
+        function startAutoCycle() {
+            if (!interval) {
+                interval = setInterval(changeTrafficLight, 1000);
+            }
+        }
+
+        function stopAutoCycle() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function toggleLight() {
+            var bulb = document.getElementById('bulb');
+            if (bulb.src.includes('bulboff')) {
+                bulb.src = 'https://www.w3schools.com/js/pic_bulbon.gif';
+            } else {
+                bulb.src = 'https://www.w3schools.com/js/pic_bulboff.gif';
+            }
+        }
+
+        document.getElementById('trafficLights').addEventListener('click', function() {
+            document.getElementById('trafficLightsSection').style.display = 'block';
+            document.getElementById('lightBulbSection').style.display = 'none';
+        });
+
+        document.getElementById('lights').addEventListener('click', function() {
+            document.getElementById('lightBulbSection').style.display = 'block';
+            document.getElementById('trafficLightsSection').style.display = 'none';
+        });
+
+    </script>
+
+</body>
+</html>
